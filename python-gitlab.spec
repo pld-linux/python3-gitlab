@@ -79,6 +79,8 @@ mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-2
 mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-3
 %endif
 
+ln -s gitlab-2 $RPM_BUILD_ROOT%{_bindir}/gitlab
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -87,6 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.rst
 %attr(755,root,root) %{_bindir}/gitlab-2
+%attr(755,root,root) %{_bindir}/gitlab
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{egg_name}-%{version}-py*.egg-info
 %endif
