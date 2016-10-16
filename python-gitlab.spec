@@ -16,6 +16,7 @@ License:	LGPLv3
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 # Source0-md5:	e0421d930718021e7d796d74d2ad7194
+Source1:	config.cfg
 URL:		https://github.com/gpocentek/python-gitlab
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -80,7 +81,7 @@ mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-3
 %endif
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/python-gitlab.cfg
+cp -p %{_sourcedir}/config.cfg $RPM_BUILD_ROOT%{_sysconfdir}/python-gitlab.cfg
 
 ln -s gitlab-2 $RPM_BUILD_ROOT%{_bindir}/gitlab
 
