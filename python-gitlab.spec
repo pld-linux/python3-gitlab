@@ -3,7 +3,7 @@
 %bcond_with		doc	# don't build doc
 %bcond_with		tests	# do not perform "make test"
 %bcond_without	python2 # CPython 2.x module
-%bcond_without	python3 # CPython 3.x module
+%bcond_with	python3 # CPython 3.x module
 
 %define 	module		gitlab
 %define 	egg_name	python_gitlab
@@ -79,6 +79,9 @@ mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-2
 mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-3
 %endif
 
+install -d $RPM_BUILD_ROOT%{_sysconfdir}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/python-gitlab.cfg
+
 ln -s gitlab-2 $RPM_BUILD_ROOT%{_bindir}/gitlab
 
 %clean
@@ -88,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.rst
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.cfg
 %attr(755,root,root) %{_bindir}/gitlab-2
 %attr(755,root,root) %{_bindir}/gitlab
 %{py_sitescriptdir}/%{module}
@@ -98,6 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-gitlab
 %defattr(644,root,root,755)
 %doc README.rst
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.cfg
 %attr(755,root,root) %{_bindir}/gitlab-3
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{egg_name}-%{version}-py*.egg-info
