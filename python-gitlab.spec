@@ -11,7 +11,7 @@
 Summary:	Interact with GitLab API
 Name:		python-gitlab
 Version:	0.16
-Release:	1
+Release:	2
 License:	LGPLv3
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
@@ -46,7 +46,7 @@ Interact with GitLab API
 %setup -q
 
 # Remove bundled egg-info
-%{__rm} -r %{module}.egg-info
+%{__rm} -r %{egg_name}.egg-info
 
 %build
 %if %{with python2}
