@@ -11,7 +11,7 @@
 Summary:	Interact with GitLab API
 Name:		python-gitlab
 Version:	0.16
-Release:	2
+Release:	3
 License:	LGPLv3
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
