@@ -9,7 +9,7 @@
 %define 	egg_name	python_gitlab
 %define		pypi_name	python-gitlab
 Summary:	Interact with GitLab API
-Name:		python-gitlab
+Name:		python3-gitlab
 Version:	0.16
 Release:	3
 License:	LGPLv3
