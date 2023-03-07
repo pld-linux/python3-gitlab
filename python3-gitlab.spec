@@ -15,7 +15,7 @@ Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 # Source0-md5:	b4ffdd18a187a263b9486b27a3576c7e
 Source1:	config.cfg
-URL:		https://github.com/python-gitlab/python-gitlab
+URL:		https://python-gitlab.readthedocs.io
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules >= 1:3.7
 BuildRequires:	python3-setuptools
