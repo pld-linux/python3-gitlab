@@ -2,109 +2,60 @@
 # Conditional build:
 %bcond_with		doc	# don't build doc
 %bcond_with		tests	# do not perform "make test"
-%bcond_without	python2 # CPython 2.x module
-%bcond_with	python3 # CPython 3.x module
 
 %define 	module		gitlab
 %define 	egg_name	python_gitlab
 %define		pypi_name	python-gitlab
 Summary:	Interact with GitLab API
 Name:		python3-gitlab
-Version:	0.16
-Release:	3
+Version:	3.13.0
+Release:	1
 License:	LGPLv3
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
-# Source0-md5:	e0421d930718021e7d796d74d2ad7194
+# Source0-md5:	b4ffdd18a187a263b9486b27a3576c7e
 Source1:	config.cfg
-URL:		https://github.com/gpocentek/python-gitlab
+URL:		https://github.com/python-gitlab/python-gitlab
+BuildRequires:	python3-devel
+BuildRequires:	python3-modules >= 1:3.7
+BuildRequires:	python3-setuptools
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
-%if %{with python2}
-BuildRequires:	python-devel
-BuildRequires:	python-setuptools
-BuildRequires:	sphinx-pdg
-%endif
-%if %{with python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
-%endif
+Requires:	python3-modules >= 1:3.7
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Interact with GitLab API
 
-%package -n python3-gitlab
-Summary:	Interact with GitLab API
-Group:		Libraries/Python
-
-%description -n python3-gitlab
-Interact with GitLab API
-
 %prep
-%setup -q
+%setup -q -n %{pypi_name}-%{version}
 
 # Remove bundled egg-info
 %{__rm} -r %{egg_name}.egg-info
 
 %build
-%if %{with python2}
-%py_build %{?with_tests:test}
-
-%if %{with doc}
-sphinx-build-2 docs html
-%{__rm} -r html/.{doctrees,buildinfo}
-%endif
-%endif
-
-%if %{with python3}
 %py3_build %{?with_tests:test}
 
 %if %{with doc}
 sphinx-build-3 docs html
 %{__rm} -r html/.{doctrees,buildinfo}
 %endif
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if %{with python2}
-%py_install
-%py_postclean
-mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-2
-%endif
-
-%if %{with python3}
 %py3_install
-mv $RPM_BUILD_ROOT%{_bindir}/gitlab $RPM_BUILD_ROOT%{_bindir}/gitlab-3
-%endif
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-cp -p %{_sourcedir}/config.cfg $RPM_BUILD_ROOT%{_sysconfdir}/python-gitlab.cfg
-
-ln -s gitlab-2 $RPM_BUILD_ROOT%{_bindir}/gitlab
+cp -p %{_sourcedir}/config.cfg $RPM_BUILD_ROOT%{_sysconfdir}/%{pypi_name}.cfg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if %{with python2}
 %files
 %defattr(644,root,root,755)
 %doc README.rst
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.cfg
-%attr(755,root,root) %{_bindir}/gitlab-2
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{pypi_name}.cfg
 %attr(755,root,root) %{_bindir}/gitlab
-%{py_sitescriptdir}/%{module}
-%{py_sitescriptdir}/%{egg_name}-%{version}-py*.egg-info
-%endif
-
-%if %{with python3}
-%files -n python3-gitlab
-%defattr(644,root,root,755)
-%doc README.rst
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.cfg
-%attr(755,root,root) %{_bindir}/gitlab-3
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{egg_name}-%{version}-py*.egg-info
-%endif
